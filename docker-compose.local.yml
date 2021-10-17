@@ -1,0 +1,13 @@
+version: "3"
+services:
+  db:
+    container_name: db_mongo_apps
+    build: ./mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - inndata:/data/db
+
+volumes:
+  inndata:

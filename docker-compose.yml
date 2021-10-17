@@ -1,0 +1,52 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx
+    depends_on:
+      - db
+      - api
+      - frontend
+    build: ./nginx
+    ports:
+      - "8888:8888"
+
+  api:
+    container_name: api
+    depends_on:
+      - db
+    restart: always
+    build: ./api
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+      - ENCRYPT_JWT_SECRET=${ENCRYPT_JWT_SECRET}
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  inn_checker:
+    container_name: inn_checker
+    restart: always
+    build: ./innChecker
+    environment:
+      - MONGO_URI=${MONGO_URI}
+
+  frontend:
+    container_name: frontend
+    depends_on:
+      - api
+    restart: always
+    build: ./frontend
+    environment:
+      - NODE_ENV=production
+
+  db:
+    container_name: db_inn_app
+    build: ./mongodb
+    restart: always
+    volumes:
+      - inndata:/data/db
+
+volumes:
+  inndata:
