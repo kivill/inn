@@ -29,8 +29,11 @@ services:
     container_name: inn_checker
     restart: always
     build: ./innChecker
-    environment:
-      - MONGO_URI=${MONGO_URI}
+  
+  reg_checker:
+    container_name: reg_checker
+    restart: always
+    build: ./regChecker
 
   frontend:
     container_name: frontend

@@ -3,6 +3,6 @@ const router = express.Router();
 let { parseInnCtrl } = require('../controllers/main')
 
 //get all
-router.get('/inn', parseInnCtrl.findOne)
+router.get('/inn/check', parseInnCtrl.findOne)
 
 module.exports = router;
